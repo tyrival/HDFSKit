@@ -27,6 +27,22 @@ class WebHDFS {
         return response
       },
       error => {
+        /**
+         IllegalArgumentException  400错误的请求
+         UnsupportedOperationException异常  400错误的请求
+         抛出：SecurityException  401未经授权
+         IOException异常  403禁止
+         FileNotFoundException异常  404没有找到
+         RuntimeException的  500内部服务器错误
+         {
+            "RemoteException":
+            {
+              "exception"    : "AccessControlException",
+              "javaClassName": "org.apache.hadoop.security.AccessControlException",
+              "message"      : "Permission denied: ..."
+            }
+          }
+         */
         this.emitEvent('error', error)
         return Promise.reject(error)
       }
@@ -159,7 +175,7 @@ class WebHDFS {
   delete (path, option) {
     let url = this.url + path + '?op=DELETE'
     url += this.formatOption(option)
-    return this.request(url, 'PUT')
+    return this.request(url, 'DELETE')
   }
 
   /**
@@ -349,7 +365,173 @@ class WebHDFS {
     return this.request(url, 'GET')
   }
 
-  // 存储策略操作
+  /**
+   * 获取所有存储策略
+   * @returns {*}
+   */
+  getAllStoragePolicy () {
+    let url = this.url + '?op=GETALLSTORAGEPOLICY'
+    return this.request(url, 'GET')
+  }
+
+  /**
+   * 设置存储策略
+   * @param path
+   * @param storagepolicy
+   * @returns {*}
+   */
+  setStoragePolicy (path, storagepolicy) {
+    let url = this.url + path + '?op=SETSTORAGEPOLICY&storagepolicy=' + storagepolicy
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 取消设置存储策略
+   * @param path
+   * @returns {*}
+   */
+  unsetStoragePolicy (path) {
+    let url = this.url + path + '?op=UNSETSTORAGEPOLICY'
+    return this.request(url, 'POST')
+  }
+
+  /**
+   * 获取存储策略
+   * @param path
+   * @returns {*}
+   */
+  getStoragePolicy (path) {
+    let url = this.url + path + '?op=GETSTORAGEPOLICY'
+    return this.request(url, 'GET')
+  }
+
+  /**
+   * 设置XAttr
+   * @param path
+   * @param name
+   * @param value
+   * @param flag
+   * @returns {*}
+   */
+  setXAttr (path, name, value, flag) {
+    let url = this.url + path + '?op=SETXATTR' +
+      '＆xattr.name = ' + name +
+      '＆xattr.value = ' + value +
+      '＆flag= ' + flag
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 删除XAttr
+   * @param path
+   * @param name
+   * @returns {*}
+   */
+  removeXAttr (path, name) {
+    let url = this.url + path + '?op=REMOVEXATTR' +
+      '＆xattr.name = ' + name
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 获取XAttr
+   * @param path
+   * @param name
+   * @param encoding
+   * @returns {*}
+   */
+  getXAttr (path, encoding, name) {
+    let url = this.url + path + '?op=GETXATTRS'
+    if (name && typeof name === 'string') {
+      url = url + '＆xattr.name = ' + name
+    } else if (name && typeof name === 'object' && name.length) {
+      for (let i = 0; i < name.length; i++) {
+        url = url + '＆xattr.name = ' + name[i]
+      }
+    }
+    url = url + '&encoding=' + encoding
+    return this.request(url, 'GET')
+  }
+
+  /**
+   * 列出XAttr名
+   * @param path
+   * @returns {*}
+   */
+  listXAttr (path) {
+    let url = this.url + path + '?op=LISTXATTRS'
+    return this.request(url, 'GET')
+  }
+
+  /**
+   * 创建快照
+   * @param path
+   * @returns {*}
+   */
+  createSnapshot (path, option) {
+    let url = this.url + path + '?op=CREATESNAPSHOT'
+    url += this.formatOption(option)
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 删除快照
+   * @param path
+   * @returns {*}
+   */
+  deleteSnapshot (path, snapshotname) {
+    let url = this.url + path + '?op=DELETESNAPSHOT&snapshotname=' + snapshotname
+    return this.request(url, 'DELETE')
+  }
+
+  /**
+   * 重命名快照
+   * @param path
+   * @returns {*}
+   */
+  renameSnapshot (path, oldsnapshotname, snapshotname) {
+    let url = this.url + path + '?op=RENAMESNAPSHOT' +
+      '&oldsnapshotname=' + oldsnapshotname +
+      '&snapshotname=' + snapshotname
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 获取授权令牌
+   * @param renewer
+   * @param service
+   * @param kind
+   * @returns {*}
+   */
+  getDelegationToken (renewer, service, kind) {
+    let url = this.url + '?op=GETDELEGATIONTOKEN' +
+      '&renewer=' + renewer +
+      '&service=' + service +
+      '&kind=' + kind
+    return this.request(url, 'GET')
+  }
+
+  /**
+   * 更新授权令牌
+   * @param token
+   * @returns {*}
+   */
+  renewDelegationToken (token) {
+    let url = this.url + '?op=RENEWDELEGATIONTOKEN' +
+      '&token=' + token
+    return this.request(url, 'PUT')
+  }
+
+  /**
+   * 取消授权令牌
+   * @param path
+   * @returns {*}
+   */
+  cancelDelegationToken (token) {
+    let url = this.url + '?op=CANCELDELEGATIONTOKEN' +
+      '&token=' + token
+    return this.request(url, 'PUT')
+  }
 
   formatOption (option) {
     let param = ''
