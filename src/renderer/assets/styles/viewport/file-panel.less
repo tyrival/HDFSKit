@@ -1,0 +1,89 @@
+@import "../theme/light";
+@import "../theme/variables";
+
+@filter-height: 32px;
+.file-panel {
+  position: absolute;
+  top: @title-height - 1;
+  left: @server-panel-width;
+  bottom: 0;
+  width: @server-panel-width;
+  background-color: @body-background;
+  overflow: hidden;
+  z-index: 1;
+
+  .filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: @filter-height;
+    width: @server-panel-width;
+    border-bottom: @border-default;
+    display: flex;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .ivu-btn {
+      height: 32px;
+      border-left: none;
+      border-right: none;
+      &:hover {
+        border-color: @border-color-base;
+      }
+    }
+
+    .ivu-input {
+      height: @filter-height;
+    }
+
+    .ivu-input-suffix {
+      line-height: @filter-height;
+    }
+  }
+
+  .file-list {
+    position: absolute;
+    top: @filter-height;
+    left: 0;
+    bottom: 0;
+    width: @server-panel-width;
+    border-right: @border-default;
+    padding-bottom: @menu-height;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .ivu-menu {
+      width: @server-panel-width !important;
+
+      &.ivu-menu-vertical {
+        .ivu-menu-item {
+          font-size: 12px;
+          padding: 8px 24px !important;
+        }
+      }
+    }
+  }
+
+  .menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: @menu-height;
+    width: @server-panel-width;
+    border-right: @border-default;
+    padding-top: 2px;
+    text-align: center;
+    z-index: 1;
+  }
+}

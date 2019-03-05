@@ -1,0 +1,60 @@
+@import "./theme/variables";
+
+@scrollbar-width: 8px;
+@scrollbar-color: @border-color-base;
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: @title-height;
+  line-height: @title-height;
+  background-color: transparent;
+  border-bottom: @border-default;
+  font-size: 12px;
+  text-align: center;
+  z-index: 1;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.ivu-modal-content {
+  border-top: 3px solid @primary-color !important;
+  border-radius: 0px !important;
+
+  .ivu-form-item {
+    margin-bottom: 12px;
+  }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: @scrollbar-width;
+  height: @scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: @scrollbar-color;
+  border-radius: @scrollbar-width;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+::-webkit-resizer {
+  display: none;
+}

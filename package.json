@@ -58,6 +58,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "iview": "^3.2.2",
+    "lodash": "^4.17.11",
+    "nedb": "^1.8.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",

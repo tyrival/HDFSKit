@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-class WebHDFS {
+class Hdfs {
   constructor (config) {
     if (!config) {
       throw new Error('WebHDFS构造参数不可为空。')
@@ -11,8 +11,8 @@ class WebHDFS {
     if (!config.port) {
       throw new Error('WebHDFS的端口不可为空。')
     }
-    if (!config.user) {
-      throw new Error('WebHDFS的用户不可为空。')
+    if (!config.path) {
+      throw new Error('WebHDFS的路径不可为空。')
     }
     this.config = config
     this.url = 'http://' + this.config.host + ':' + this.config.port + '/webhdfs/v1'
@@ -79,8 +79,10 @@ class WebHDFS {
     let url = this.url + path + '?op=CREATE'
     url += this.formatOption(option)
     return this.request(url, 'PUT')
-      .then(() => {
+      .then(response => {
         // 307 TEMPORARY_REDIRECT
+        // TODO 获取重定向URL
+        url = response.Location
         let data = {}
         if (file) {
           let data = new FormData()
@@ -562,4 +564,4 @@ class WebHDFS {
   }
 }
 
-export default WebHDFS
+export default Hdfs
