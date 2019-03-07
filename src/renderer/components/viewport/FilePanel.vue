@@ -6,7 +6,7 @@
                     custom-icon="icon iconfont icon-up"
                     :disabled="disableUpButton()"
                     @click="upFolder"></Button>
-            <Input suffix="ios-search"
+            <Input suffix="icon iconfont icon-filter"
                    v-model="filterWord"
                    placeholder="请输入筛选条件"/>
         </div>

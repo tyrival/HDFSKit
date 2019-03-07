@@ -1,7 +1,7 @@
 <template>
 	<div class="server-panel">
 		<div class="filter">
-			<Input suffix="ios-search"
+			<Input suffix="icon iconfont icon-filter"
 			       v-model="filterWord"
 			       placeholder="请输入筛选条件"/>
 		</div>
