@@ -1,38 +1,38 @@
 <template>
-	<div v-if="config.storage.data"
-	     class="file-panel">
-		<div class="filter">
-			<Button type="default"
-			        custom-icon="icon iconfont icon-up"
-			        :disabled="disableUpButton()"
-			        @click="upFolder"></Button>
-			<Input suffix="ios-search"
-			       v-model="filterWord"
-			       placeholder="请输入筛选条件"/>
-		</div>
-		<div class="file-list">
-			<Menu theme="light"
-			      :active-name="config.storage.index"
-			      @on-select="selectFile">
-				<template v-for="(item, i) in config.storage.data">
-					<MenuItem v-show="filterFile(item)" :name="i">
-						<i class="icon iconfont" :class="calcIcon(item.type)"/>
-						{{item.pathSuffix}}
-					</MenuItem>
-				</template>
-			</Menu>
-		</div>
-		<div class="menu">
-			<ButtonGroup size="small" shape="circle">
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-plus"
-				        @click="createFile"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-minus"
-				        @click="deleteFile"></Button>
-			</ButtonGroup>
-		</div>
-	</div>
+    <div v-if="config.storage.data"
+         class="file-panel">
+        <div class="filter">
+            <Button type="default"
+                    custom-icon="icon iconfont icon-up"
+                    :disabled="disableUpButton()"
+                    @click="upFolder"></Button>
+            <Input suffix="ios-search"
+                   v-model="filterWord"
+                   placeholder="请输入筛选条件"/>
+        </div>
+        <div class="file-list">
+            <Menu theme="light"
+                  :active-name="config.storage.index"
+                  @on-select="selectFile">
+                <template v-for="(item, i) in config.storage.data">
+                    <MenuItem v-show="filterFile(item)" :name="i">
+                        <i class="icon iconfont" :class="calcIcon(item.type)"/>
+                        {{item.pathSuffix}}
+                    </MenuItem>
+                </template>
+            </Menu>
+        </div>
+        <div class="menu">
+            <ButtonGroup size="small" shape="circle">
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-plus"
+                        @click="createFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-minus"
+                        @click="deleteFile"></Button>
+            </ButtonGroup>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -132,7 +132,9 @@
         let filePath = folderPath + file.pathSuffix
         this.config.client.open(filePath)
           .then(response => {
-            debugger
+            if (response.status === 200) {
+              this.config.storage.value = response.data
+            }
           })
           .catch(_ => {
             let message = '未能打开选中的文件。'
