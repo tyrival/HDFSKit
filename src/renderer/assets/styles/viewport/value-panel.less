@@ -1,0 +1,73 @@
+@import "../theme/light";
+@import "../theme/variables";
+
+@toolbar-height: 32px;
+.value-panel {
+  position: absolute;
+  top: -1px;
+  left: @server-panel-width + @file-panel-width;
+  right: 0;
+  bottom: 0;
+  background-color: @body-background;
+  overflow: hidden;
+  z-index: 1;
+
+  .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: @toolbar-height;
+
+    .ivu-btn {
+      height: 32px;
+    }
+
+    .ivu-input-wrapper {
+      width: calc(100% - 55px);
+      margin-right: -4px;
+
+      .ivu-input {
+        height: @toolbar-height;
+      }
+    }
+
+    .ivu-input-suffix {
+      line-height: @toolbar-height;
+    }
+
+    .finder-result {
+      position: absolute;
+      top: 0;
+      right: 95px;
+      height: @toolbar-height;
+      line-height: @toolbar-height;
+      color: @legend-color;
+    }
+  }
+
+  .text-area {
+    position: absolute;
+    top: @toolbar-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    textarea {
+      height: 100%;
+      padding-bottom: @menu-height;
+    }
+  }
+
+  .menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: @menu-height;
+    width: 100%;
+    border-right: @border-default;
+    padding-top: 2px;
+    text-align: center;
+    z-index: 1;
+  }
+}

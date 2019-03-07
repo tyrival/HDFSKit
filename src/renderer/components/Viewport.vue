@@ -1,9 +1,11 @@
 <template>
-	<div class="viewport" :style="calcStyle">
-		<ServerPanel :config="config"></ServerPanel>
-		<FilePanel :config="config"></FilePanel>
-		<ServerEditor :config="config"></ServerEditor>
-	</div>
+    <div class="viewport" :style="calcStyle">
+        <ServerPanel :config="config"></ServerPanel>
+        <FilePanel :config="config"></FilePanel>
+        <ValuePanel :config="config"></ValuePanel>
+        <ServerEditor :config="config"></ServerEditor>
+        <FileEditor :config="config"></FileEditor>
+    </div>
 </template>
 
 <script>
@@ -11,7 +13,9 @@
   import OSUtils from '../utils/OSUtils'
   import ServerPanel from './viewport/ServerPanel'
   import FilePanel from './viewport/FilePanel'
+  import ValuePanel from './viewport/ValuePanel'
   import ServerEditor from './viewport/ServerEditor'
+  import FileEditor from './viewport/FileEditor'
 
   export default {
     name: 'Viewport',
@@ -43,6 +47,18 @@
             data: null,
             index: null,
             value: null
+          },
+          finder: {
+            word: '',
+            index: 0,
+            positions: null
+          },
+          fileEditor: {
+            show: false,
+            index: null,
+            model: {
+              file: null
+            }
           }
         }
       }
@@ -64,7 +80,9 @@
     components: {
       'ServerPanel': ServerPanel,
       'FilePanel': FilePanel,
-      'ServerEditor': ServerEditor
+      'ValuePanel': ValuePanel,
+      'ServerEditor': ServerEditor,
+      'FileEditor': FileEditor
     }
   }
 </script>

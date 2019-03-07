@@ -7,7 +7,7 @@
   top: -1px;
   left: @server-panel-width;
   bottom: 0;
-  width: @server-panel-width;
+  width: @file-panel-width;
   background-color: @body-background;
   overflow: hidden;
   z-index: 1;
@@ -17,7 +17,7 @@
     top: 0;
     left: 0;
     height: @filter-height;
-    width: @server-panel-width;
+    width: @file-panel-width;
     border-bottom: @border-default;
     display: flex;
     -webkit-touch-callout: none;
@@ -32,7 +32,7 @@
       border-left: none;
       border-right: none;
       &:hover {
-        border-color: @border-color-base;
+        //border-color: @border-color-base;
       }
     }
 
@@ -50,7 +50,7 @@
     top: @filter-height;
     left: 0;
     bottom: 0;
-    width: @server-panel-width;
+    width: @file-panel-width;
     border-right: @border-default;
     padding-bottom: @menu-height;
     overflow-x: hidden;
@@ -64,7 +64,7 @@
     user-select: none;
 
     .ivu-menu {
-      width: @server-panel-width !important;
+      width: @file-panel-width !important;
 
       &.ivu-menu-vertical {
         .ivu-menu-item {
@@ -86,7 +86,7 @@
     left: 0;
     bottom: 0;
     height: @menu-height;
-    width: @server-panel-width;
+    width: @file-panel-width;
     border-right: @border-default;
     padding-top: 2px;
     text-align: center;

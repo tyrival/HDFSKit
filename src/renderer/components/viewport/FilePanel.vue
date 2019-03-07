@@ -26,7 +26,7 @@
             <ButtonGroup size="small" shape="circle">
                 <Button type="primary"
                         custom-icon="icon iconfont icon-plus"
-                        @click="createFile"></Button>
+                        @click="editFile"></Button>
                 <Button type="primary"
                         custom-icon="icon iconfont icon-minus"
                         @click="deleteFile"></Button>
@@ -91,6 +91,7 @@
        * 转到上级文件夹
        */
       upFolder () {
+        this.resetValue()
         let config = {}
         config.host = this.config.client.config.host
         config.port = this.config.client.config.port
@@ -107,6 +108,7 @@
         let model = this.config.storage.data[name]
         let type = model.type
         if (type === 'DIRECTORY') {
+          this.resetValue()
           this.openFolder()
         } else {
           this.loadFile()
@@ -144,14 +146,23 @@
       /**
        * 新增文件
        */
-      createFile () {
-
+      editFile () {
+        this.config.fileEditor.show = true
       },
       /**
        * 删除文件
        */
       deleteFile () {
 
+      },
+      /**
+       * reset value panel
+       */
+      resetValue () {
+        this.config.storage.value = null
+        this.config.finder.index = 0
+        this.config.finder.word = ''
+        this.config.finder.positions = null
       }
     },
     watch: {

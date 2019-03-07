@@ -82,6 +82,7 @@ class Hdfs {
       .then(response => {
         // 307 TEMPORARY_REDIRECT
         // TODO 获取重定向URL
+        debugger
         url = response.Location
         let data = {}
         if (file) {
@@ -107,6 +108,7 @@ class Hdfs {
     return this.request(url, 'PUT')
       .then(() => {
         // 307 TEMPORARY_REDIRECT
+        debugger
         let data = {}
         if (file) {
           let data = new FormData()
