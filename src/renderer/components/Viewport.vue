@@ -1,9 +1,9 @@
 <template>
-    <div class="viewport" :style="calcStyle">
-        <ServerPanel :config="config"></ServerPanel>
-        <FilePanel :config="config"></FilePanel>
-        <ServerEditor :config="config"></ServerEditor>
-    </div>
+	<div class="viewport" :style="calcStyle">
+		<ServerPanel :config="config"></ServerPanel>
+		<FilePanel :config="config"></FilePanel>
+		<ServerEditor :config="config"></ServerEditor>
+	</div>
 </template>
 
 <script>
