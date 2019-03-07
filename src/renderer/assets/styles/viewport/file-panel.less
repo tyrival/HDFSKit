@@ -65,9 +65,12 @@
     -ms-user-select: none;
     user-select: none;
 
+    @file-item-height: 40px;
     .file-item {
+      height: @file-item-height;
+      line-height: @file-item-height;
       font-size: 12px;
-      padding: 8px 24px !important;
+      padding: 0 24px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
