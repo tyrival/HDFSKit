@@ -3,7 +3,7 @@
 		<div class="filter">
 			<Input suffix="icon iconfont icon-filter"
 			       v-model="filterWord"
-			       placeholder="请输入筛选条件"/>
+			       placeholder="请输入筛选条件" clearable/>
 		</div>
 		<div class="server-list">
 			<Menu theme="light"
