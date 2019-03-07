@@ -182,10 +182,8 @@
         this.config.finder.index = 0
         this.config.finder.word = ''
         this.config.finder.positions = null
-      }
-    },
-    watch: {
-      'config.client': function () {
+      },
+      loadFileList () {
         this.config.storage.index = null
         this.config.client.listStatus(this.config.client.config.path)
           .then(response => {
@@ -208,6 +206,11 @@
             let message = '连接服务器失败，请检查服务器状态和网络连接。'
             this.$Message.error(message)
           })
+      }
+    },
+    watch: {
+      'config.client': function () {
+        this.loadFileList()
       }
     }
   }

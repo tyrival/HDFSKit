@@ -1,7 +1,7 @@
 <template>
 	<div class="viewport" :style="calcStyle">
 		<ServerPanel :config="config"></ServerPanel>
-		<FilePanel :config="config"></FilePanel>
+		<FilePanel ref="filePanel" :config="config"></FilePanel>
 		<ValuePanel :config="config"></ValuePanel>
 		<ServerEditor :config="config"></ServerEditor>
 		<FileEditor :config="config"></FileEditor>

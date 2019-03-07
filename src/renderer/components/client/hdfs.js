@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 import axios from 'axios'
 
 class Hdfs {
@@ -80,16 +81,10 @@ class Hdfs {
     url += this.formatOption(option)
     return this.request(url, 'PUT')
       .then(response => {
-        // 307 TEMPORARY_REDIRECT
-        // TODO 获取重定向URL
-        debugger
-        url = response.Location
-        let data = {}
         if (file) {
-          let data = new FormData()
-          data.append('file', file)
+          url = response.request.responseURL.replace('overwrite=false', 'overwrite=true')
+          return this.request(url, 'PUT', file)
         }
-        return this.request(url, 'PUT', data)
       })
   }
 
@@ -105,16 +100,10 @@ class Hdfs {
   append (path, file, option) {
     let url = this.url + path + '?op=APPEND'
     url += this.formatOption(option)
-    return this.request(url, 'PUT')
-      .then(() => {
-        // 307 TEMPORARY_REDIRECT
-        debugger
-        let data = {}
-        if (file) {
-          let data = new FormData()
-          data.append('file', file)
-        }
-        return this.request(url, 'PUT', data)
+    return this.request(url, 'POST')
+      .then(response => {
+        url = response.request.responseURL
+        return this.request(url, 'POST', file)
       })
   }
 
