@@ -1,5 +1,5 @@
 <template>
-	<div class="viewport">
+	<div class="viewport" :style="calcStyle">
 		<ServerPanel :config="config"></ServerPanel>
 		<FilePanel :config="config"></FilePanel>
 		<ServerEditor :config="config"></ServerEditor>
@@ -8,6 +8,7 @@
 
 <script>
   import '../assets/styles/viewport/main.less'
+  import OSUtils from '../utils/OSUtils'
   import ServerPanel from './viewport/ServerPanel'
   import FilePanel from './viewport/FilePanel'
   import ServerEditor from './viewport/ServerEditor'
@@ -54,6 +55,11 @@
           this.config.servers = []
         }
       })
+    },
+    computed: {
+      calcStyle () {
+        return OSUtils.getOsInfo().name === 'Mac' ? 'top:22px' : 'top:0'
+      }
     },
     components: {
       'ServerPanel': ServerPanel,

@@ -132,7 +132,9 @@
         let filePath = folderPath + file.pathSuffix
         this.config.client.open(filePath)
           .then(response => {
-            debugger
+            if (response.status === 200) {
+              this.config.storage.value = response.data
+            }
           })
           .catch(_ => {
             let message = '未能打开选中的文件。'
