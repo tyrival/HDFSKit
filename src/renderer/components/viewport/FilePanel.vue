@@ -8,31 +8,36 @@
 			        @click="upFolder"></Button>
 			<Input suffix="icon iconfont icon-filter"
 			       v-model="filterWord"
-			       placeholder="请输入筛选条件"/>
+			       placeholder="请输入筛选条件" clearable/>
 		</div>
 		<div class="file-list">
-			<Menu theme="light"
-			      :active-name="config.storage.index"
-			      @on-select="selectFile">
-				<template v-for="(item, i) in config.storage.data">
-					<MenuItem v-show="filterFile(item)" :name="i">
-						<i class="icon iconfont" :class="calcIcon(item.type)"/>
-						{{item.pathSuffix}}
-					</MenuItem>
-				</template>
-			</Menu>
+			<template v-for="(item, i) in config.storage.data">
+				<div v-show="filterFile(item)"
+				     class="file-item"
+				     :class="config.storage.index === i ? 'active' : ''"
+				     @click="selectFile(i)">
+					<i class="icon iconfont" :class="calcIcon(item.type)"/>
+					{{item.pathSuffix}}
+				</div>
+			</template>
 		</div>
 		<div class="menu">
 			<ButtonGroup size="small" shape="circle">
 				<Button type="primary"
+				        custom-icon="icon iconfont icon-add-folder"
+				        @click="createFolder"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-delete-folder"
+				        @click="deleteFolder"></Button>
+				<Button type="primary"
 				        custom-icon="icon iconfont icon-plus"
 				        @click="createFile"></Button>
 				<Button type="primary"
-				        custom-icon="icon iconfont icon-edit"
-				        @click="appendFile"></Button>
-				<Button type="primary"
 				        custom-icon="icon iconfont icon-minus"
 				        @click="deleteFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-append"
+				        @click="appendFile"></Button>
 			</ButtonGroup>
 		</div>
 	</div>
@@ -106,9 +111,9 @@
       /**
        * 选择文件
        */
-      selectFile (name) {
-        this.config.storage.index = name
-        let model = this.config.storage.data[name]
+      selectFile (index) {
+        this.config.storage.index = index
+        let model = this.config.storage.data[index]
         let type = model.type
         if (type === 'DIRECTORY') {
           this.resetValue()
@@ -172,10 +177,64 @@
        * 删除文件
        */
       deleteFile () {
-
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择需要删除的文件。')
+          return
+        }
+        this.$Modal.confirm({
+          title: '警告',
+          content: '确定删除选中的文件？',
+          closable: true,
+          onOk: () => {
+            let path = this.config.client.config.path + this.config.storage.data[this.config.storage.index].pathSuffix
+            this.config.client.delete(path)
+              .then(response => {
+                if (response.status === 200) {
+                  this.$Message.success('删除文件成功。')
+                  this.loadFileList()
+                }
+              })
+          }
+        })
       },
       /**
-       * reset value panel
+       * 新增文件夹
+       */
+      createFolder () {
+        this.config.folderEditor.show = true
+        this.config.folderEditor.model.path = this.config.client.config.path
+      },
+      /**
+       * 删除文件夹
+       */
+      deleteFolder () {
+        this.$Modal.confirm({
+          title: '警告',
+          content: '确定删除当前文件夹？',
+          closable: true,
+          onOk: () => {
+            let path = this.config.client.config.path
+            this.config.client.delete(path)
+              .then(response => {
+                if (response.status === 200) {
+                  this.$Message.success('删除文件夹成功。')
+                  this.upFolder()
+                }
+              })
+              .catch(error => {
+                if (error) {
+                  this.$Message.error({
+                    content: '错误' + error.response.status + ': ' + error.response.statusText,
+                    duration: 3
+                  })
+                }
+              })
+          }
+        })
+      },
+      /**
+       * 重置值面板
        */
       resetValue () {
         this.config.storage.value = null
@@ -183,6 +242,9 @@
         this.config.finder.word = ''
         this.config.finder.positions = null
       },
+      /**
+       * 加载文件列表
+       */
       loadFileList () {
         this.config.storage.index = null
         this.config.client.listStatus(this.config.client.config.path)

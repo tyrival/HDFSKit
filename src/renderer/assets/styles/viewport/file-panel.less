@@ -31,9 +31,6 @@
       height: 32px;
       border-left: none;
       border-right: none;
-      &:hover {
-        //border-color: @border-color-base;
-      }
     }
 
     .ivu-input {
@@ -42,6 +39,11 @@
 
     .ivu-input-suffix {
       line-height: @filter-height;
+    }
+
+    .ivu-input-icon-clear {
+      line-height: @filter-height;
+      cursor: pointer;
     }
   }
 
@@ -63,20 +65,22 @@
     -ms-user-select: none;
     user-select: none;
 
-    .ivu-menu {
-      width: @file-panel-width !important;
+    .file-item {
+      font-size: 12px;
+      padding: 8px 24px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
 
-      &.ivu-menu-vertical {
-        .ivu-menu-item {
-          font-size: 12px;
-          padding: 8px 24px !important;
-        }
+      &.active {
+        background: #f0faff;
+        color: @primary-color;
+        border-right: 1px solid @primary-color;
       }
 
-      .ivu-menu-item {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      &:hover {
+        color: @primary-color;
       }
     }
   }

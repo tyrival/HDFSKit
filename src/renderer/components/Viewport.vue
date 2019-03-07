@@ -5,6 +5,7 @@
 		<ValuePanel :config="config"></ValuePanel>
 		<ServerEditor :config="config"></ServerEditor>
 		<FileEditor :config="config"></FileEditor>
+		<FolderEditor :config="config"></FolderEditor>
 	</div>
 </template>
 
@@ -16,6 +17,7 @@
   import ValuePanel from './viewport/ValuePanel'
   import ServerEditor from './viewport/ServerEditor'
   import FileEditor from './viewport/FileEditor'
+  import FolderEditor from './viewport/FolderEditor'
 
   export default {
     name: 'Viewport',
@@ -62,6 +64,13 @@
               path: null,
               file: null
             }
+          },
+          folderEditor: {
+            show: false,
+            model: {
+              name: '',
+              path: null
+            }
           }
         }
       }
@@ -85,7 +94,8 @@
       'FilePanel': FilePanel,
       'ValuePanel': ValuePanel,
       'ServerEditor': ServerEditor,
-      'FileEditor': FileEditor
+      'FileEditor': FileEditor,
+      'FolderEditor': FolderEditor
     }
   }
 </script>

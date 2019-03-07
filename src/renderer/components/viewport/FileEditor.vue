@@ -34,8 +34,6 @@
 </template>
 
 <script>
-  /* eslint-disable no-unused-vars,handle-callback-err */
-
   export default {
     name: 'FileEditor',
     props: ['config'],
@@ -75,7 +73,7 @@
           case 1:
             if (!this.config.fileEditor.model.file) {
               this.$Message.error({
-                content: '',
+                content: '请选中需要附加的文件。',
                 duration: 3
               })
               return
@@ -85,7 +83,7 @@
                 this.$Spin.hide()
                 if (response.status === 200) {
                   this.config.fileEditor.show = false
-                  this.$Message.success('新增文件成功。')
+                  this.$Message.success('附加文件成功。')
                 }
               })
               .catch(error => {
