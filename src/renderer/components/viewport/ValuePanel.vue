@@ -4,7 +4,7 @@
         <div class="toolbar">
             <Input suffix="ios-search"
                    v-model="filterWord"
-                   placeholder="请输入"/>
+                   placeholder="请输入查找关键字"/>
         </div>
     </div>
 </template>
