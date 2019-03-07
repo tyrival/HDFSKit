@@ -1,38 +1,41 @@
 <template>
-    <div v-if="config.storage.data"
-         class="file-panel">
-        <div class="filter">
-            <Button type="default"
-                    custom-icon="icon iconfont icon-up"
-                    :disabled="disableUpButton()"
-                    @click="upFolder"></Button>
-            <Input suffix="icon iconfont icon-filter"
-                   v-model="filterWord"
-                   placeholder="请输入筛选条件"/>
-        </div>
-        <div class="file-list">
-            <Menu theme="light"
-                  :active-name="config.storage.index"
-                  @on-select="selectFile">
-                <template v-for="(item, i) in config.storage.data">
-                    <MenuItem v-show="filterFile(item)" :name="i">
-                        <i class="icon iconfont" :class="calcIcon(item.type)"/>
-                        {{item.pathSuffix}}
-                    </MenuItem>
-                </template>
-            </Menu>
-        </div>
-        <div class="menu">
-            <ButtonGroup size="small" shape="circle">
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-plus"
-                        @click="editFile"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-minus"
-                        @click="deleteFile"></Button>
-            </ButtonGroup>
-        </div>
-    </div>
+	<div v-if="config.storage.data"
+	     class="file-panel">
+		<div class="filter">
+			<Button type="default"
+			        custom-icon="icon iconfont icon-up"
+			        :disabled="disableUpButton()"
+			        @click="upFolder"></Button>
+			<Input suffix="icon iconfont icon-filter"
+			       v-model="filterWord"
+			       placeholder="请输入筛选条件"/>
+		</div>
+		<div class="file-list">
+			<Menu theme="light"
+			      :active-name="config.storage.index"
+			      @on-select="selectFile">
+				<template v-for="(item, i) in config.storage.data">
+					<MenuItem v-show="filterFile(item)" :name="i">
+						<i class="icon iconfont" :class="calcIcon(item.type)"/>
+						{{item.pathSuffix}}
+					</MenuItem>
+				</template>
+			</Menu>
+		</div>
+		<div class="menu">
+			<ButtonGroup size="small" shape="circle">
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-plus"
+				        @click="createFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-edit"
+				        @click="appendFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-minus"
+				        @click="deleteFile"></Button>
+			</ButtonGroup>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -146,8 +149,24 @@
       /**
        * 新增文件
        */
-      editFile () {
+      createFile () {
         this.config.fileEditor.show = true
+        this.config.fileEditor.type = 0
+        this.config.fileEditor.model.path = this.config.client.config.path
+      },
+      /**
+       * 附加文件
+       */
+      appendFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
+        this.config.fileEditor.show = true
+        this.config.fileEditor.type = 1
+        this.config.fileEditor.model.path = this.config.client.config.path
+        this.config.fileEditor.model.name = this.config.storage.data[this.config.storage.index].pathSuffix
       },
       /**
        * 删除文件

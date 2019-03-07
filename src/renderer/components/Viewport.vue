@@ -1,11 +1,11 @@
 <template>
-    <div class="viewport" :style="calcStyle">
-        <ServerPanel :config="config"></ServerPanel>
-        <FilePanel :config="config"></FilePanel>
-        <ValuePanel :config="config"></ValuePanel>
-        <ServerEditor :config="config"></ServerEditor>
-        <FileEditor :config="config"></FileEditor>
-    </div>
+	<div class="viewport" :style="calcStyle">
+		<ServerPanel :config="config"></ServerPanel>
+		<FilePanel :config="config"></FilePanel>
+		<ValuePanel :config="config"></ValuePanel>
+		<ServerEditor :config="config"></ServerEditor>
+		<FileEditor :config="config"></FileEditor>
+	</div>
 </template>
 
 <script>
@@ -55,8 +55,11 @@
           },
           fileEditor: {
             show: false,
-            index: null,
+            // 0 - 新建文件 / 1 - 附加文件
+            type: 0,
             model: {
+              name: '',
+              path: null,
               file: null
             }
           }
