@@ -1,56 +1,59 @@
 <template>
-    <div v-if="config.storage.data"
-         class="file-panel">
-        <div class="filter">
-            <Button type="default"
-                    custom-icon="icon iconfont icon-up"
-                    :disabled="disableUpButton()"
-                    @click="upFolder"></Button>
-            <Input suffix="icon iconfont icon-filter"
-                   v-model="filterWord"
-                   placeholder="请输入筛选条件" clearable/>
-        </div>
-        <div class="file-list">
-            <template v-for="(item, i) in config.storage.data">
-                <div v-show="filterFile(item)"
-                     class="file-item"
-                     :class="config.storage.index === i ? 'active' : ''"
-                     @click="selectFile(i)"
-                     @dblclick="openFile(i)">
-                    <i class="icon iconfont" :class="calcIcon(item.type)"/>
-                    {{item.pathSuffix}}
-                </div>
-            </template>
-        </div>
-        <div class="menu">
-            <ButtonGroup size="small" shape="circle">
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-add-folder"
-                        @click="createFolder"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-add-file"
-                        @click="createFile"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-delete"
-                        @click="deleteFile"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-replication"
-                        @click="setReplication"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-permission"
-                        @click="setPermission"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-owner"
-                        @click="setOwner"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-info"
-                        @click="infoFile"></Button>
-                <Button type="primary"
-                        custom-icon="icon iconfont icon-rename"
-                        @click="renameFile"></Button>
-            </ButtonGroup>
-        </div>
-    </div>
+	<div v-if="config.storage.data"
+	     class="file-panel">
+		<div class="filter">
+			<Button type="default"
+			        custom-icon="icon iconfont icon-up"
+			        :disabled="disableUpButton()"
+			        @click="upFolder"></Button>
+			<Input suffix="icon iconfont icon-filter"
+			       v-model="filterWord"
+			       placeholder="请输入筛选条件" clearable/>
+		</div>
+		<div class="file-list">
+			<template v-for="(item, i) in config.storage.data">
+				<div v-show="filterFile(item)"
+				     class="file-item"
+				     :class="config.storage.index === i ? 'active' : ''"
+				     @click="selectFile(i)"
+				     @dblclick="openFile(i)">
+					<i class="icon iconfont" :class="calcIcon(item.type)"/>
+					{{item.pathSuffix}}
+				</div>
+			</template>
+		</div>
+		<div class="menu">
+			<ButtonGroup size="small" shape="circle">
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-add-folder"
+				        @click="createFolder"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-add-file"
+				        @click="createFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-shortcut"
+				        @click="createSymLink"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-replication"
+				        @click="setReplication"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-permission"
+				        @click="setPermission"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-owner"
+				        @click="setOwner"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-info"
+				        @click="infoFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-rename"
+				        @click="renameFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-delete"
+				        @click="deleteFile"></Button>
+			</ButtonGroup>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -101,6 +104,8 @@
             return 'icon-folder'
           case 'FILE':
             return 'icon-file'
+          case 'SYMLINK':
+            return 'icon-shortcut'
           default:
             return ''
         }
@@ -184,6 +189,21 @@
         this.config.fileEditor.show = true
         this.config.fileEditor.type = 0
         this.config.fileEditor.model.path = this.config.client.config.path
+      },
+      /**
+       * 新建符号链接
+       */
+      createSymLink () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择需要建立符号链接的文件。')
+          return
+        }
+        let path = this.config.client.config.path + this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.symLinkEditor.show = true
+        this.config.symLinkEditor.model.path = path
+        this.config.symLinkEditor.model.destination = null
+        this.config.symLinkEditor.model.option.createParent = true
       },
       /**
        * 删除文件

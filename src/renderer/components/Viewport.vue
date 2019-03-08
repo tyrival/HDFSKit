@@ -1,18 +1,19 @@
 <template>
-    <div class="viewport" :style="calcStyle">
-        <ServerPanel :config="config"></ServerPanel>
-        <FilePanel ref="filePanel" :config="config"></FilePanel>
-        <ValuePanel :config="config"></ValuePanel>
-        <ServerEditor :config="config"></ServerEditor>
-        <FileEditor :config="config"></FileEditor>
-        <FolderEditor :config="config"></FolderEditor>
-        <FileConcatEditor :config="config"></FileConcatEditor>
-        <FileRenameEditor :config="config"></FileRenameEditor>
-        <FileStatusEditor :config="config"></FileStatusEditor>
-        <PermissionEditor :config="config"></PermissionEditor>
-        <OwnerEditor :config="config"></OwnerEditor>
-        <ReplicationEditor :config="config"></ReplicationEditor>
-    </div>
+	<div class="viewport" :style="calcStyle">
+		<ServerPanel :config="config"></ServerPanel>
+		<FilePanel ref="filePanel" :config="config"></FilePanel>
+		<ValuePanel :config="config"></ValuePanel>
+		<ServerEditor :config="config"></ServerEditor>
+		<FileEditor :config="config"></FileEditor>
+		<FolderEditor :config="config"></FolderEditor>
+		<FileConcatEditor :config="config"></FileConcatEditor>
+		<FileRenameEditor :config="config"></FileRenameEditor>
+		<FileStatusEditor :config="config"></FileStatusEditor>
+		<PermissionEditor :config="config"></PermissionEditor>
+		<OwnerEditor :config="config"></OwnerEditor>
+		<ReplicationEditor :config="config"></ReplicationEditor>
+		<SymLinkEditor :config="config"></SymLinkEditor>
+	</div>
 </template>
 
 <script>
@@ -30,6 +31,7 @@
   import PermissionEditor from './viewport/PermissionEditor'
   import OwnerEditor from './viewport/OwnerEditor'
   import ReplicationEditor from './viewport/ReplicationEditor'
+  import SymLinkEditor from './viewport/SymLinkEditor'
 
   export default {
     name: 'Viewport',
@@ -130,6 +132,14 @@
               path: null,
               replication: null
             }
+          },
+          symLinkEditor: {
+            show: false,
+            model: {
+              path: null,
+              destination: null,
+              option: {createParent: false}
+            }
           }
         }
       }
@@ -160,6 +170,7 @@
       'FileStatusEditor': FileStatusEditor,
       'PermissionEditor': PermissionEditor,
       'ReplicationEditor': ReplicationEditor,
+      'SymLinkEditor': SymLinkEditor,
       'OwnerEditor': OwnerEditor
     }
   }

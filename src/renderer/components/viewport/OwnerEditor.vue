@@ -1,7 +1,7 @@
 <template>
     <Modal v-model="config.ownerEditor.show"
-           title="设置权限"
-           width="500"
+           title="设置所有者"
+           width="350"
            :styles="{top: '20px'}">
         <Form  :label-width="60">
             <FormItem label="路径">

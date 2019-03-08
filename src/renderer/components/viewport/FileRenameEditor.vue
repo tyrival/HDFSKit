@@ -1,7 +1,7 @@
 <template>
     <Modal v-model="config.fileRenameEditor.show"
            title="移动/重命名文件"
-           width="350"
+           width="700"
            :styles="{top: '20px'}">
         <Form :model="config.fileRenameEditor.model" :label-width="60">
             <FormItem label="目标路径">

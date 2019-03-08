@@ -147,7 +147,6 @@ class Hdfs {
    */
   download (path) {
     let url = this.url + path + '?op=OPEN'
-    // 创建隐藏的可下载链接
     let eleLink = document.createElement('a')
     eleLink.download = url
     eleLink.style.display = 'none'

@@ -1,7 +1,7 @@
 <template>
     <Modal v-model="config.permissionEditor.show"
            title="设置权限"
-           width="500"
+           width="350"
            :styles="{top: '20px'}">
         <Form :model="config.permissionEditor.model" :label-width="60">
             <FormItem label="路径">
