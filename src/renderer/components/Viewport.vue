@@ -6,6 +6,7 @@
 		<ServerEditor :config="config"></ServerEditor>
 		<FileEditor :config="config"></FileEditor>
 		<FolderEditor :config="config"></FolderEditor>
+		<FileConcatEditor :config="config"></FileConcatEditor>
 	</div>
 </template>
 
@@ -18,6 +19,7 @@
   import ServerEditor from './viewport/ServerEditor'
   import FileEditor from './viewport/FileEditor'
   import FolderEditor from './viewport/FolderEditor'
+  import FileConcatEditor from './viewport/FileConcatEditor'
 
   export default {
     name: 'Viewport',
@@ -71,6 +73,12 @@
               name: '',
               path: null
             }
+          },
+          fileConcatEditor: {
+            show: false,
+            client: null,
+            target: null,
+            source: null
           }
         }
       }
@@ -95,6 +103,7 @@
       'ValuePanel': ValuePanel,
       'ServerEditor': ServerEditor,
       'FileEditor': FileEditor,
+      'FileConcatEditor': FileConcatEditor,
       'FolderEditor': FolderEditor
     }
   }

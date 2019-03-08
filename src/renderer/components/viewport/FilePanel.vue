@@ -38,6 +38,9 @@
 				<Button type="primary"
 				        custom-icon="icon iconfont icon-append"
 				        @click="appendFile"></Button>
+				<Button type="primary"
+				        custom-icon="icon iconfont icon-concat"
+				        @click="concatFile"></Button>
 			</ButtonGroup>
 		</div>
 	</div>
@@ -197,6 +200,20 @@
               })
           }
         })
+      },
+      /**
+       * 合并文件
+       */
+      concatFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择合并的目标文件。')
+          return
+        }
+        this.config.fileConcatEditor.show = true
+        let config = this.config.servers[this.config.index]
+        this.config.fileConcatEditor.client = new Hdfs(config)
+        this.config.fileConcatEditor.target = this.config.client.config.path + this.config.storage.data[index].pathSuffix
       },
       /**
        * 新增文件夹
