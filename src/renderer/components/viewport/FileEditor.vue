@@ -18,14 +18,16 @@
             <FormItem label="块大小" v-show="config.fileEditor.type === 0">
                 <Row>
                     <Col :span="10">
-                        <InputNumber :min="0"
+                        <InputNumber :min="1"
+                                     size="default"
                                      placeholder="LONG"
                                      style="width: 100%"
                                      v-model="config.fileEditor.model.option.blocksize"></InputNumber>
                     </Col>
                     <Col :span="4" style="text-align: center">副本数</Col>
                     <Col :span="10">
-                        <InputNumber :min="0"
+                        <InputNumber :min="1"
+                                     size="default"
                                      placeholder="SHORT"
                                      style="width: 100%"
                                      v-model="config.fileEditor.model.option.replication"></InputNumber>
@@ -35,7 +37,8 @@
             <FormItem label="缓冲块">
                 <Row>
                     <Col :span="10">
-                        <InputNumber :min="0"
+                        <InputNumber :min="1"
+                                     size="default"
                                      placeholder="INTEGER"
                                      style="width: 100%"
                                      v-model="config.fileEditor.model.option.buffersize"></InputNumber>
@@ -46,6 +49,7 @@
                     <Col  v-show="config.fileEditor.type === 0"
                           :span="10">
                         <Input v-model="config.fileEditor.model.option.permission"
+                               size="default"
                                placeholder="000 ~ 777"></Input>
                     </Col>
                 </Row>

@@ -11,6 +11,7 @@
         <FileStatusEditor :config="config"></FileStatusEditor>
         <PermissionEditor :config="config"></PermissionEditor>
         <OwnerEditor :config="config"></OwnerEditor>
+        <ReplicationEditor :config="config"></ReplicationEditor>
     </div>
 </template>
 
@@ -28,6 +29,7 @@
   import FileStatusEditor from './viewport/FileStatusEditor'
   import PermissionEditor from './viewport/PermissionEditor'
   import OwnerEditor from './viewport/OwnerEditor'
+  import ReplicationEditor from './viewport/ReplicationEditor'
 
   export default {
     name: 'Viewport',
@@ -121,6 +123,13 @@
               path: null,
               owner: null
             }
+          },
+          replicationEditor: {
+            show: false,
+            model: {
+              path: null,
+              replication: null
+            }
           }
         }
       }
@@ -150,6 +159,7 @@
       'FolderEditor': FolderEditor,
       'FileStatusEditor': FileStatusEditor,
       'PermissionEditor': PermissionEditor,
+      'ReplicationEditor': ReplicationEditor,
       'OwnerEditor': OwnerEditor
     }
   }

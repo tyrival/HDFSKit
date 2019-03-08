@@ -31,11 +31,11 @@
                         custom-icon="icon iconfont icon-add-file"
                         @click="createFile"></Button>
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-rename"
-                        @click="renameFile"></Button>
-                <Button type="primary"
                         custom-icon="icon iconfont icon-delete"
                         @click="deleteFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-replication"
+                        @click="setReplication"></Button>
                 <Button type="primary"
                         custom-icon="icon iconfont icon-permission"
                         @click="setPermission"></Button>
@@ -45,6 +45,9 @@
                 <Button type="primary"
                         custom-icon="icon iconfont icon-info"
                         @click="infoFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-rename"
+                        @click="renameFile"></Button>
             </ButtonGroup>
         </div>
     </div>
@@ -318,6 +321,25 @@
         let path = this.config.client.config.path + this.config.storage.data[index].pathSuffix
         this.config.ownerEditor.model.path = path
         this.config.ownerEditor.model.owner = ''
+      },
+      /**
+       * 设置副本数
+       */
+      setReplication () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选中文件后设置副本数。')
+          return
+        }
+        let model = this.config.storage.data[this.config.storage.index]
+        if (model.type === 'DIRECTORY') {
+          this.$Message.error('请选中文件后设置副本数。')
+          return
+        }
+        this.config.replicationEditor.show = true
+        let path = this.config.client.config.path + model.pathSuffix
+        this.config.replicationEditor.model.path = path
+        this.config.replicationEditor.model.replication = 3
       }
     },
     watch: {
