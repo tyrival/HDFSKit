@@ -37,6 +37,12 @@
                         custom-icon="icon iconfont icon-delete"
                         @click="deleteFile"></Button>
                 <Button type="primary"
+                        custom-icon="icon iconfont icon-permission"
+                        @click="setPermission"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-owner"
+                        @click="setOwner"></Button>
+                <Button type="primary"
                         custom-icon="icon iconfont icon-info"
                         @click="infoFile"></Button>
             </ButtonGroup>
@@ -284,6 +290,34 @@
               duration: 3
             })
           })
+      },
+      /**
+       * 设置权限
+       */
+      setPermission () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择文件/文件夹。')
+          return
+        }
+        this.config.permissionEditor.show = true
+        let path = this.config.client.config.path + this.config.storage.data[index].pathSuffix
+        this.config.permissionEditor.model.path = path
+        this.config.permissionEditor.model.octal = ''
+      },
+      /**
+       * 设置所有者
+       */
+      setOwner () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择文件/文件夹。')
+          return
+        }
+        this.config.ownerEditor.show = true
+        let path = this.config.client.config.path + this.config.storage.data[index].pathSuffix
+        this.config.ownerEditor.model.path = path
+        this.config.ownerEditor.model.owner = ''
       }
     },
     watch: {

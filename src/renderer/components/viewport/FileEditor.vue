@@ -4,10 +4,51 @@
            width="500"
            :styles="{top: '20px'}">
         <Form :model="config.fileEditor.model" :label-width="60">
-            <FormItem label="目标文件">
+            <FormItem label="文件名">
                 <Input v-model="config.fileEditor.model.name"
                        size="default"
                        :readonly="config.fileEditor.type === 1"></Input>
+            </FormItem>
+            <FormItem label="覆盖" v-show="config.fileEditor.type === 0">
+                <i-switch v-model="config.fileEditor.model.option.overwrite" size="large">
+                    <span slot="open">On</span>
+                    <span slot="close">Off</span>
+                </i-switch>
+            </FormItem>
+            <FormItem label="块大小" v-show="config.fileEditor.type === 0">
+                <Row>
+                    <Col :span="10">
+                        <InputNumber :min="0"
+                                     placeholder="LONG"
+                                     style="width: 100%"
+                                     v-model="config.fileEditor.model.option.blocksize"></InputNumber>
+                    </Col>
+                    <Col :span="4" style="text-align: center">副本数</Col>
+                    <Col :span="10">
+                        <InputNumber :min="0"
+                                     placeholder="SHORT"
+                                     style="width: 100%"
+                                     v-model="config.fileEditor.model.option.replication"></InputNumber>
+                    </Col>
+                </Row>
+            </FormItem>
+            <FormItem label="缓冲块">
+                <Row>
+                    <Col :span="10">
+                        <InputNumber :min="0"
+                                     placeholder="INTEGER"
+                                     style="width: 100%"
+                                     v-model="config.fileEditor.model.option.buffersize"></InputNumber>
+                    </Col>
+                    <Col  v-show="config.fileEditor.type === 0"
+                          :span="4"
+                          style="text-align: center">权限</Col>
+                    <Col  v-show="config.fileEditor.type === 0"
+                          :span="10">
+                        <Input v-model="config.fileEditor.model.option.permission"
+                               placeholder="000 ~ 777"></Input>
+                    </Col>
+                </Row>
             </FormItem>
             <FormItem v-if="config.fileEditor.model.file" label="附件">
                 <div v-if="config.fileEditor.model.file">
@@ -105,7 +146,18 @@
     watch: {
       'config.fileEditor.show': function (val) {
         if (!val) {
-          this.$set(this.config.fileEditor, 'model', {name: null, file: null, path: null})
+          this.$set(this.config.fileEditor, 'model', {
+            name: null,
+            file: null,
+            path: null,
+            option: {
+              overwrite: false,
+              blocksize: null,
+              replication: null,
+              permission: null,
+              buffersize: null
+            }
+          })
         }
       }
     }

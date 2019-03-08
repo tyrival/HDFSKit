@@ -8,6 +8,11 @@
                 <Input v-model="config.folderEditor.model.name"
                        size="default"></Input>
             </FormItem>
+            <FormItem label="权限">
+                <Input v-model="config.folderEditor.model.option.octal"
+                       size="default"
+                       placeholder="000 ~ 777"></Input>
+            </FormItem>
         </Form>
         <div slot="footer">
             <Button size="default" @click="cancelModal">取 消</Button>
@@ -31,7 +36,8 @@
         }
         this.$Spin.show()
         let path = this.config.folderEditor.model.path + this.config.folderEditor.model.name
-        this.config.client.mkdirs(path)
+        let option = this.config.folderEditor.model.option
+        this.config.client.mkdirs(path, option)
           .then(response => {
             this.$Spin.hide()
             if (response.status === 200) {
@@ -55,7 +61,7 @@
     watch: {
       'config.folderEditor.show': function (val) {
         if (!val) {
-          this.$set(this.config.folderEditor, 'model', {name: null, folder: null, path: null})
+          this.$set(this.config.folderEditor, 'model', {name: null, folder: null, path: null, option: {octal: null}})
         }
       }
     }
