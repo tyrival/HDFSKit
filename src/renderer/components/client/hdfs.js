@@ -128,6 +128,15 @@ class Hdfs {
    */
   open (path, option) {
     let url = this.url + path + '?op=OPEN'
+    if (!option) {
+      option = {}
+    }
+    if (!option.offset) {
+      option.offset = 0
+    }
+    if (!option.length) {
+      option.length = 1000
+    }
     url += this.formatOption(option)
     return this.request(url, 'GET')
   }
