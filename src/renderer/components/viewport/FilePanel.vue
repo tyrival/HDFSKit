@@ -31,17 +31,14 @@
                         custom-icon="icon iconfont icon-add-file"
                         @click="createFile"></Button>
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-delete"
-                        @click="deleteFile"></Button>
-                <Button type="primary"
                         custom-icon="icon iconfont icon-rename"
                         @click="renameFile"></Button>
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-append"
-                        @click="appendFile"></Button>
+                        custom-icon="icon iconfont icon-delete"
+                        @click="deleteFile"></Button>
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-concat"
-                        @click="concatFile"></Button>
+                        custom-icon="icon iconfont icon-info"
+                        @click="infoFile"></Button>
             </ButtonGroup>
         </div>
     </div>
@@ -128,12 +125,18 @@
       openFile (index) {
         this.config.storage.index = index
         let model = this.config.storage.data[index]
-        let type = model.type
-        if (type === 'DIRECTORY') {
-          this.resetValue()
-          this.openFolder()
-        } else {
-          this.loadFile()
+        switch (model.type) {
+          case 'DIRECTORY':
+            this.resetValue()
+            this.openFolder()
+            break
+          case 'FILE':
+            this.loadFile()
+            break
+          case 'SYMLINK':
+            break
+          default:
+            break
         }
       },
       /**
@@ -174,25 +177,6 @@
         this.config.fileEditor.model.path = this.config.client.config.path
       },
       /**
-       * 附加文件
-       */
-      appendFile () {
-        let index = this.config.storage.index
-        if (index === undefined || index === null) {
-          this.$Message.error('请选中文件后进行附加。')
-          return
-        }
-        let model = this.config.storage.data[this.config.storage.index]
-        if (model.type === 'DIRECTORY') {
-          this.$Message.error('请选中文件后进行附加。')
-          return
-        }
-        this.config.fileEditor.show = true
-        this.config.fileEditor.type = 1
-        this.config.fileEditor.model.path = this.config.client.config.path
-        this.config.fileEditor.model.name = model.pathSuffix
-      },
-      /**
        * 删除文件
        */
       deleteFile () {
@@ -216,25 +200,6 @@
               })
           }
         })
-      },
-      /**
-       * 合并文件
-       */
-      concatFile () {
-        let index = this.config.storage.index
-        if (index === undefined || index === null) {
-          this.$Message.error('请选择合并的目标文件。')
-          return
-        }
-        let model = this.config.storage.data[index]
-        if (model.type === 'DIRECTORY') {
-          this.$Message.error('请选中文件后进行附加。')
-          return
-        }
-        this.config.fileConcatEditor.show = true
-        let config = this.config.servers[this.config.index]
-        this.config.fileConcatEditor.client = new Hdfs(config)
-        this.config.fileConcatEditor.target = this.config.client.config.path + model.pathSuffix
       },
       /**
        * 新增文件夹
@@ -293,6 +258,32 @@
         let name = this.config.storage.data[this.config.storage.index].pathSuffix
         this.config.fileRenameEditor.model.path = path + name
         this.config.fileRenameEditor.model.destination = path + name
+      },
+      /**
+       * 获取状态
+       */
+      infoFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择文件/文件夹。')
+          return
+        }
+        let path = this.config.client.config.path + this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.client.getFileStatus(path)
+          .then(response => {
+            if (response.status === 200) {
+              this.config.fileStatusEditor.show = true
+              let info = response.data.FileStatus
+              info.path = path
+              this.$set(this.config.fileStatusEditor, 'info', info)
+            }
+          })
+          .catch(error => {
+            this.$Message.error({
+              content: '错误' + error.response.status + ': ' + error.response.statusText,
+              duration: 3
+            })
+          })
       }
     },
     watch: {

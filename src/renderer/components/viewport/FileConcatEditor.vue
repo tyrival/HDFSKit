@@ -1,47 +1,47 @@
 <template>
-	<Modal v-model="config.fileConcatEditor.show"
-	       title="来源文件"
-	       width="550"
-	       :styles="{top: '20px'}">
-		<Form :label-width="60">
-			<FormItem label="目标文件">
-				<Input v-model="config.fileConcatEditor.target"
-				       size="default"
-				       readonly></Input>
-			</FormItem>
-			<FormItem label="来源文件">
-				<Input v-model="config.fileConcatEditor.source"
-				       size="default"
-				       readonly></Input>
-			</FormItem>
-		</Form>
-		<div class="file-concat">
-			<div class="filter">
-				<Button type="default"
-				        custom-icon="icon iconfont icon-up"
-				        :disabled="disableUpButton()"
-				        @click="upFolder"></Button>
-				<Input suffix="icon iconfont icon-filter"
-				       v-model="filterWord"
-				       placeholder="请输入筛选条件" clearable/>
-			</div>
-			<div class="file-list">
-				<template v-for="(item, i) in data">
-					<div v-show="filterFile(item)"
-					     class="file-item"
-					     :class="index === i ? 'active' : ''"
-					     @click="selectFile(i)">
-						<i class="icon iconfont" :class="calcIcon(item.type)"/>
-						{{item.pathSuffix}}
-					</div>
-				</template>
-			</div>
-		</div>
-		<div slot="footer">
-			<Button size="default" @click="config.fileConcatEditor.show = false">取 消</Button>
-			<Button type="primary" size="default" @click="save">确 定</Button>
-		</div>
-	</Modal>
+    <Modal v-model="config.fileConcatEditor.show"
+           title="来源文件"
+           width="550"
+           :styles="{top: '20px'}">
+        <Form :label-width="60">
+            <FormItem label="目标文件">
+                <Input v-model="config.fileConcatEditor.target"
+                       size="default"
+                       readonly></Input>
+            </FormItem>
+            <FormItem label="来源文件">
+                <Input v-model="config.fileConcatEditor.source"
+                       size="default"
+                       readonly></Input>
+            </FormItem>
+        </Form>
+        <div class="file-concat">
+            <div class="filter">
+                <Button type="default"
+                        custom-icon="icon iconfont icon-up"
+                        :disabled="disableUpButton()"
+                        @click="upFolder"></Button>
+                <Input suffix="icon iconfont icon-filter"
+                       v-model="filterWord"
+                       placeholder="请输入筛选条件" clearable/>
+            </div>
+            <div class="file-list">
+                <template v-for="(item, i) in data">
+                    <div v-show="filterFile(item)"
+                         class="file-item"
+                         :class="index === i ? 'active' : ''"
+                         @click="selectFile(i)">
+                        <i class="icon iconfont" :class="calcIcon(item.type)"/>
+                        {{item.pathSuffix}}
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div slot="footer">
+            <Button size="default" @click="config.fileConcatEditor.show = false">取 消</Button>
+            <Button type="primary" size="default" @click="save">确 定</Button>
+        </div>
+    </Modal>
 </template>
 
 <script>
@@ -219,6 +219,9 @@
           this.config.fileConcatEditor.client = null
           this.config.fileConcatEditor.source = null
           this.config.fileConcatEditor.target = null
+          this.data = null
+          this.index = null
+          this.filterWord = null
         }
       },
       'config.fileConcatEditor.client': function (val) {
