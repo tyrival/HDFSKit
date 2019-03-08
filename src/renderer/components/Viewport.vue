@@ -9,6 +9,8 @@
         <FileConcatEditor :config="config"></FileConcatEditor>
         <FileRenameEditor :config="config"></FileRenameEditor>
         <FileStatusEditor :config="config"></FileStatusEditor>
+        <PermissionEditor :config="config"></PermissionEditor>
+        <OwnerEditor :config="config"></OwnerEditor>
     </div>
 </template>
 
@@ -24,6 +26,8 @@
   import FileConcatEditor from './viewport/FileConcatEditor'
   import FileRenameEditor from './viewport/FileRenameEditor'
   import FileStatusEditor from './viewport/FileStatusEditor'
+  import PermissionEditor from './viewport/PermissionEditor'
+  import OwnerEditor from './viewport/OwnerEditor'
 
   export default {
     name: 'Viewport',
@@ -94,6 +98,16 @@
           fileStatusEditor: {
             show: false,
             info: {}
+          },
+          permissionEditor: {
+            show: false,
+            path: null,
+            octal: null
+          },
+          ownerEditor: {
+            show: false,
+            path: null,
+            owner: null
           }
         }
       }
@@ -121,7 +135,9 @@
       'FileConcatEditor': FileConcatEditor,
       'FileRenameEditor': FileRenameEditor,
       'FolderEditor': FolderEditor,
-      'FileStatusEditor': FileStatusEditor
+      'FileStatusEditor': FileStatusEditor,
+      'PermissionEditor': PermissionEditor,
+      'OwnerEditor': OwnerEditor
     }
   }
 </script>
