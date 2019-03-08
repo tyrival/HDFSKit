@@ -1,13 +1,14 @@
 <template>
-	<div class="viewport" :style="calcStyle">
-		<ServerPanel :config="config"></ServerPanel>
-		<FilePanel ref="filePanel" :config="config"></FilePanel>
-		<ValuePanel :config="config"></ValuePanel>
-		<ServerEditor :config="config"></ServerEditor>
-		<FileEditor :config="config"></FileEditor>
-		<FolderEditor :config="config"></FolderEditor>
-		<FileConcatEditor :config="config"></FileConcatEditor>
-	</div>
+    <div class="viewport" :style="calcStyle">
+        <ServerPanel :config="config"></ServerPanel>
+        <FilePanel ref="filePanel" :config="config"></FilePanel>
+        <ValuePanel :config="config"></ValuePanel>
+        <ServerEditor :config="config"></ServerEditor>
+        <FileEditor :config="config"></FileEditor>
+        <FolderEditor :config="config"></FolderEditor>
+        <FileConcatEditor :config="config"></FileConcatEditor>
+        <FileRenameEditor :config="config"></FileRenameEditor>
+    </div>
 </template>
 
 <script>
@@ -20,6 +21,7 @@
   import FileEditor from './viewport/FileEditor'
   import FolderEditor from './viewport/FolderEditor'
   import FileConcatEditor from './viewport/FileConcatEditor'
+  import FileRenameEditor from './viewport/FileRenameEditor'
 
   export default {
     name: 'Viewport',
@@ -79,6 +81,13 @@
             client: null,
             target: null,
             source: null
+          },
+          fileRenameEditor: {
+            show: false,
+            model: {
+              path: null,
+              destination: null
+            }
           }
         }
       }
@@ -104,6 +113,7 @@
       'ServerEditor': ServerEditor,
       'FileEditor': FileEditor,
       'FileConcatEditor': FileConcatEditor,
+      'FileRenameEditor': FileRenameEditor,
       'FolderEditor': FolderEditor
     }
   }

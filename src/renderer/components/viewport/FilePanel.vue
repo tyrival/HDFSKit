@@ -1,49 +1,50 @@
 <template>
-	<div v-if="config.storage.data"
-	     class="file-panel">
-		<div class="filter">
-			<Button type="default"
-			        custom-icon="icon iconfont icon-up"
-			        :disabled="disableUpButton()"
-			        @click="upFolder"></Button>
-			<Input suffix="icon iconfont icon-filter"
-			       v-model="filterWord"
-			       placeholder="请输入筛选条件" clearable/>
-		</div>
-		<div class="file-list">
-			<template v-for="(item, i) in config.storage.data">
-				<div v-show="filterFile(item)"
-				     class="file-item"
-				     :class="config.storage.index === i ? 'active' : ''"
-				     @click="selectFile(i)">
-					<i class="icon iconfont" :class="calcIcon(item.type)"/>
-					{{item.pathSuffix}}
-				</div>
-			</template>
-		</div>
-		<div class="menu">
-			<ButtonGroup size="small" shape="circle">
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-add-folder"
-				        @click="createFolder"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-delete-folder"
-				        @click="deleteFolder"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-plus"
-				        @click="createFile"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-minus"
-				        @click="deleteFile"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-append"
-				        @click="appendFile"></Button>
-				<Button type="primary"
-				        custom-icon="icon iconfont icon-concat"
-				        @click="concatFile"></Button>
-			</ButtonGroup>
-		</div>
-	</div>
+    <div v-if="config.storage.data"
+         class="file-panel">
+        <div class="filter">
+            <Button type="default"
+                    custom-icon="icon iconfont icon-up"
+                    :disabled="disableUpButton()"
+                    @click="upFolder"></Button>
+            <Input suffix="icon iconfont icon-filter"
+                   v-model="filterWord"
+                   placeholder="请输入筛选条件" clearable/>
+        </div>
+        <div class="file-list">
+            <template v-for="(item, i) in config.storage.data">
+                <div v-show="filterFile(item)"
+                     class="file-item"
+                     :class="config.storage.index === i ? 'active' : ''"
+                     @click="selectFile(i)"
+                     @dblclick="openFile(i)">
+                    <i class="icon iconfont" :class="calcIcon(item.type)"/>
+                    {{item.pathSuffix}}
+                </div>
+            </template>
+        </div>
+        <div class="menu">
+            <ButtonGroup size="small" shape="circle">
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-add-folder"
+                        @click="createFolder"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-add-file"
+                        @click="createFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-delete"
+                        @click="deleteFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-rename"
+                        @click="renameFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-append"
+                        @click="appendFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-concat"
+                        @click="concatFile"></Button>
+            </ButtonGroup>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -115,6 +116,16 @@
        * 选择文件
        */
       selectFile (index) {
+        if (this.config.storage.index === index) {
+          return
+        }
+        this.config.storage.index = index
+        this.resetValue()
+      },
+      /**
+       * 选择文件
+       */
+      openFile (index) {
         this.config.storage.index = index
         let model = this.config.storage.data[index]
         let type = model.type
@@ -194,7 +205,7 @@
             this.config.client.delete(path)
               .then(response => {
                 if (response.status === 200) {
-                  this.$Message.success('删除文件成功。')
+                  this.$Message.success('删除成功。')
                   this.loadFileList()
                 }
               })
@@ -221,34 +232,6 @@
       createFolder () {
         this.config.folderEditor.show = true
         this.config.folderEditor.model.path = this.config.client.config.path
-      },
-      /**
-       * 删除文件夹
-       */
-      deleteFolder () {
-        this.$Modal.confirm({
-          title: '警告',
-          content: '确定删除当前文件夹？',
-          closable: true,
-          onOk: () => {
-            let path = this.config.client.config.path
-            this.config.client.delete(path)
-              .then(response => {
-                if (response.status === 200) {
-                  this.$Message.success('删除文件夹成功。')
-                  this.upFolder()
-                }
-              })
-              .catch(error => {
-                if (error) {
-                  this.$Message.error({
-                    content: '错误' + error.response.status + ': ' + error.response.statusText,
-                    duration: 3
-                  })
-                }
-              })
-          }
-        })
       },
       /**
        * 重置值面板
@@ -285,6 +268,21 @@
             let message = '连接服务器失败，请检查服务器状态和网络连接。'
             this.$Message.error(message)
           })
+      },
+      /**
+       * 重命名文件/文件夹
+       */
+      renameFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择需要重命名的文件/文件夹。')
+          return
+        }
+        this.config.fileRenameEditor.show = true
+        let path = this.config.client.config.path
+        let name = this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.fileRenameEditor.model.path = path + name
+        this.config.fileRenameEditor.model.destination = path + name
       }
     },
     watch: {
