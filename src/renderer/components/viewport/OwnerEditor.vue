@@ -5,12 +5,12 @@
            :styles="{top: '20px'}">
         <Form  :label-width="60">
             <FormItem label="路径">
-                <Input v-model="config.ownerEditor.path"
+                <Input v-model="config.ownerEditor.model.path"
                        size="default"
                        readonly></Input>
             </FormItem>
             <FormItem label="所有者">
-                <Input v-model="config.ownerEditor.owner"
+                <Input v-model="config.ownerEditor.model.owner"
                        size="default"></Input>
             </FormItem>
         </Form>
@@ -27,7 +27,7 @@
     props: ['config'],
     methods: {
       save () {
-        if (!this.config.ownerEditor.owner) {
+        if (!this.config.ownerEditor.model.owner) {
           this.$Message.error({
             content: '错误: 请输入所有者。',
             duration: 3
@@ -35,8 +35,8 @@
           return
         }
         this.$Spin.show()
-        let path = this.config.ownerEditor.path
-        this.config.client.setOwner(path, {owner: this.config.ownerEditor.owner})
+        let path = this.config.ownerEditor.model.path
+        this.config.client.setOwner(path, {owner: this.config.ownerEditor.model.owner})
           .then(response => {
             this.$Spin.hide()
             if (response.status === 200) {

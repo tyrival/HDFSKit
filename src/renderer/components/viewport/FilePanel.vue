@@ -302,8 +302,8 @@
         }
         this.config.permissionEditor.show = true
         let path = this.config.client.config.path + this.config.storage.data[index].pathSuffix
-        this.config.permissionEditor.path = path
-        this.config.permissionEditor.octal = ''
+        this.config.permissionEditor.model.path = path
+        this.config.permissionEditor.model.octal = ''
       },
       /**
        * 设置所有者
@@ -316,8 +316,8 @@
         }
         this.config.ownerEditor.show = true
         let path = this.config.client.config.path + this.config.storage.data[index].pathSuffix
-        this.config.ownerEditor.path = path
-        this.config.ownerEditor.owner = ''
+        this.config.ownerEditor.model.path = path
+        this.config.ownerEditor.model.owner = ''
       }
     },
     watch: {

@@ -72,14 +72,23 @@
             model: {
               name: '',
               path: null,
-              file: null
+              file: null,
+              option: {
+                overwrite: false,
+                blocksize: null,
+                replication: null,
+                permission: null,
+                buffersize: null
+              }
             }
           },
           folderEditor: {
             show: false,
             model: {
               name: '',
-              path: null
+              path: null,
+              folder: null,
+              option: {octal: null}
             }
           },
           fileConcatEditor: {
@@ -101,13 +110,17 @@
           },
           permissionEditor: {
             show: false,
-            path: null,
-            octal: null
+            model: {
+              path: null,
+              octal: null
+            }
           },
           ownerEditor: {
             show: false,
-            path: null,
-            owner: null
+            model: {
+              path: null,
+              owner: null
+            }
           }
         }
       }

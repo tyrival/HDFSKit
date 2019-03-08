@@ -3,15 +3,16 @@
            title="设置权限"
            width="500"
            :styles="{top: '20px'}">
-        <Form  :label-width="60">
+        <Form :model="config.permissionEditor.model" :label-width="60">
             <FormItem label="路径">
-                <Input v-model="config.permissionEditor.path"
+                <Input v-model="config.permissionEditor.model.path"
                        size="default"
                        readonly></Input>
             </FormItem>
             <FormItem label="权限">
-                <Input v-model="config.permissionEditor.octal"
-                       size="default"></Input>
+                <Input v-model="config.permissionEditor.model.octal"
+                       size="default"
+                       placeholder="000 ~ 777"></Input>
             </FormItem>
         </Form>
         <div slot="footer">
@@ -27,7 +28,7 @@
     props: ['config'],
     methods: {
       save () {
-        if (!this.config.permissionEditor.octal) {
+        if (!this.config.permissionEditor.model.octal) {
           this.$Message.error({
             content: '错误: 请输入权限。',
             duration: 3
@@ -35,8 +36,8 @@
           return
         }
         this.$Spin.show()
-        let path = this.config.permissionEditor.path
-        this.config.client.setPermission(path, {permission: this.config.permissionEditor.octal})
+        let path = this.config.permissionEditor.model.path
+        this.config.client.setPermission(path, {permission: this.config.permissionEditor.model.octal})
           .then(response => {
             this.$Spin.hide()
             if (response.status === 200) {

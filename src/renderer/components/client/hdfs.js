@@ -539,7 +539,10 @@ class Hdfs {
     let param = ''
     if (option) {
       for (let key in option) {
-        param = param + '&' + key + '=' + option[key]
+        let value = option[key]
+        if (value !== undefined && value !== null) {
+          param = param + '&' + key + '=' + value
+        }
       }
     }
     return param
