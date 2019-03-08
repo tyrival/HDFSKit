@@ -1,10 +1,10 @@
 <template>
     <Modal v-model="config.fileEditor.show"
            :title="config.fileEditor.type === 0 ? '新增文件' : '附加文件'"
-           width="350"
+           width="500"
            :styles="{top: '20px'}">
         <Form :model="config.fileEditor.model" :label-width="60">
-            <FormItem label="文件名">
+            <FormItem label="目标文件">
                 <Input v-model="config.fileEditor.model.name"
                        size="default"
                        :readonly="config.fileEditor.type === 1"></Input>

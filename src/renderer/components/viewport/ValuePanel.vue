@@ -24,11 +24,11 @@
         <div class="menu">
             <ButtonGroup size="small" shape="circle">
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-plus"
-                        @click=""></Button>
+                        custom-icon="icon iconfont icon-append"
+                        @click="appendFile"></Button>
                 <Button type="primary"
-                        custom-icon="icon iconfont icon-minus"
-                        @click=""></Button>
+                        custom-icon="icon iconfont icon-concat"
+                        @click="concatFile"></Button>
             </ButtonGroup>
         </div>
     </div>
@@ -36,6 +36,7 @@
 
 <script>
   import '../../assets/styles/viewport/value-panel.less'
+  import Hdfs from '../client/hdfs'
 
   export default {
     name: 'ValuePanel',
@@ -46,10 +47,16 @@
       }
     },
     methods: {
+      /**
+       * 修改查询条件
+       */
       changeWord () {
         this.config.finder.index = 0
         this.config.finder.positions = null
       },
+      /**
+       * 查找文本
+       */
       findWord (event) {
         if (event.key !== 'Enter' || !this.config.finder.word) {
           return
@@ -64,20 +71,32 @@
         }
         this.setPosition()
       },
+      /**
+       * 查找上一个
+       */
       prevPosition () {
         this.config.finder.index--
         this.setPosition()
       },
+      /**
+       * 查找下一个
+       */
       nextPosition () {
         this.config.finder.index++
         this.setPosition()
       },
+      /**
+       * 获取文本框
+       */
       getDom () {
         if (!this.valueDom) {
           this.valueDom = document.getElementById('value-area').children[0]
         }
         return this.valueDom
       },
+      /**
+       * 定位文本
+       */
       setPosition () {
         let dom = this.getDom()
         let index = this.config.finder.index
@@ -85,6 +104,9 @@
         let end = start + this.config.finder.word.length
         this.setSelectionRange(dom, start, end)
       },
+      /**
+       * 选中文本
+       */
       setSelectionRange (input, selectionStart, selectionEnd) {
         if (input.setSelectionRange) {
           input.focus()
@@ -96,6 +118,44 @@
           range.moveStart('character', selectionStart)
           range.select()
         }
+      },
+      /**
+       * 附加文件
+       */
+      appendFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
+        let model = this.config.storage.data[this.config.storage.index]
+        if (model.type === 'DIRECTORY') {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
+        this.config.fileEditor.show = true
+        this.config.fileEditor.type = 1
+        this.config.fileEditor.model.path = this.config.client.config.path
+        this.config.fileEditor.model.name = this.config.client.config.path + model.pathSuffix
+      },
+      /**
+       * 合并文件
+       */
+      concatFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择合并的目标文件。')
+          return
+        }
+        let model = this.config.storage.data[index]
+        if (model.type === 'DIRECTORY') {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
+        this.config.fileConcatEditor.show = true
+        let config = this.config.servers[this.config.index]
+        this.config.fileConcatEditor.client = new Hdfs(config)
+        this.config.fileConcatEditor.target = this.config.client.config.path + model.pathSuffix
       }
     }
   }
