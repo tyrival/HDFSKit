@@ -36,6 +36,9 @@
                 <Button type="primary"
                         custom-icon="icon iconfont icon-delete"
                         @click="deleteFile"></Button>
+                <Button type="primary"
+                        custom-icon="icon iconfont icon-info"
+                        @click="infoFile"></Button>
             </ButtonGroup>
         </div>
     </div>
@@ -122,12 +125,18 @@
       openFile (index) {
         this.config.storage.index = index
         let model = this.config.storage.data[index]
-        let type = model.type
-        if (type === 'DIRECTORY') {
-          this.resetValue()
-          this.openFolder()
-        } else {
-          this.loadFile()
+        switch (model.type) {
+          case 'DIRECTORY':
+            this.resetValue()
+            this.openFolder()
+            break
+          case 'FILE':
+            this.loadFile()
+            break
+          case 'SYMLINK':
+            break
+          default:
+            break
         }
       },
       /**
@@ -249,6 +258,32 @@
         let name = this.config.storage.data[this.config.storage.index].pathSuffix
         this.config.fileRenameEditor.model.path = path + name
         this.config.fileRenameEditor.model.destination = path + name
+      },
+      /**
+       * 获取状态
+       */
+      infoFile () {
+        let index = this.config.storage.index
+        if (index === undefined || index === null) {
+          this.$Message.error('请选择文件/文件夹。')
+          return
+        }
+        let path = this.config.client.config.path + this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.client.getFileStatus(path)
+          .then(response => {
+            if (response.status === 200) {
+              this.config.fileStatusEditor.show = true
+              let info = response.data.FileStatus
+              info.path = path
+              this.$set(this.config.fileStatusEditor, 'info', info)
+            }
+          })
+          .catch(error => {
+            this.$Message.error({
+              content: '错误' + error.response.status + ': ' + error.response.statusText,
+              duration: 3
+            })
+          })
       }
     },
     watch: {

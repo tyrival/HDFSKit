@@ -8,6 +8,7 @@
         <FolderEditor :config="config"></FolderEditor>
         <FileConcatEditor :config="config"></FileConcatEditor>
         <FileRenameEditor :config="config"></FileRenameEditor>
+        <FileStatusEditor :config="config"></FileStatusEditor>
     </div>
 </template>
 
@@ -22,6 +23,7 @@
   import FolderEditor from './viewport/FolderEditor'
   import FileConcatEditor from './viewport/FileConcatEditor'
   import FileRenameEditor from './viewport/FileRenameEditor'
+  import FileStatusEditor from './viewport/FileStatusEditor'
 
   export default {
     name: 'Viewport',
@@ -88,6 +90,10 @@
               path: null,
               destination: null
             }
+          },
+          fileStatusEditor: {
+            show: false,
+            info: {}
           }
         }
       }
@@ -114,7 +120,8 @@
       'FileEditor': FileEditor,
       'FileConcatEditor': FileConcatEditor,
       'FileRenameEditor': FileRenameEditor,
-      'FolderEditor': FolderEditor
+      'FolderEditor': FolderEditor,
+      'FileStatusEditor': FileStatusEditor
     }
   }
 </script>
