@@ -24,6 +24,9 @@
         <div class="menu">
             <ButtonGroup size="small" shape="circle">
                 <Button type="primary"
+                        custom-icon="icon iconfont icon-download"
+                        @click="download"></Button>
+                <Button type="primary"
                         custom-icon="icon iconfont icon-append"
                         @click="appendFile"></Button>
                 <Button type="primary"
@@ -47,6 +50,13 @@
       }
     },
     methods: {
+      /**
+       * 下载
+       */
+      download () {
+        let path = this.config.client.config.path + this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.client.download(path)
+      },
       /**
        * 修改查询条件
        */

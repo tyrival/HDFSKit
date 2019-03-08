@@ -142,6 +142,22 @@ class Hdfs {
   }
 
   /**
+   * 下载文件
+   * @param path
+   */
+  download (path) {
+    let url = this.url + path + '?op=OPEN'
+    // 创建隐藏的可下载链接
+    let eleLink = document.createElement('a')
+    eleLink.download = url
+    eleLink.style.display = 'none'
+    eleLink.href = url
+    document.body.appendChild(eleLink)
+    eleLink.click()
+    document.body.removeChild(eleLink)
+  }
+
+  /**
    * 创建符号链接
    * @param path
    * @param destination
