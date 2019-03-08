@@ -182,10 +182,15 @@
           this.$Message.error('请选中文件后进行附加。')
           return
         }
+        let model = this.config.storage.data[this.config.storage.index]
+        if (model.type === 'DIRECTORY') {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
         this.config.fileEditor.show = true
         this.config.fileEditor.type = 1
         this.config.fileEditor.model.path = this.config.client.config.path
-        this.config.fileEditor.model.name = this.config.storage.data[this.config.storage.index].pathSuffix
+        this.config.fileEditor.model.name = model.pathSuffix
       },
       /**
        * 删除文件
@@ -221,10 +226,15 @@
           this.$Message.error('请选择合并的目标文件。')
           return
         }
+        let model = this.config.storage.data[index]
+        if (model.type === 'DIRECTORY') {
+          this.$Message.error('请选中文件后进行附加。')
+          return
+        }
         this.config.fileConcatEditor.show = true
         let config = this.config.servers[this.config.index]
         this.config.fileConcatEditor.client = new Hdfs(config)
-        this.config.fileConcatEditor.target = this.config.client.config.path + this.config.storage.data[index].pathSuffix
+        this.config.fileConcatEditor.target = this.config.client.config.path + model.pathSuffix
       },
       /**
        * 新增文件夹
