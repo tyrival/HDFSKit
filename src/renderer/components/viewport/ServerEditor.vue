@@ -19,7 +19,7 @@
 				<FormItem label="主机">
 					<Input v-model="config.serverEditor.model.host"
 					       size="default"
-					       placeholder="127.0.0.1"></Input>
+					       placeholder="localhost"></Input>
 				</FormItem>
 				<FormItem label="端口">
 					<Input v-model="config.serverEditor.model.port"
@@ -58,7 +58,7 @@
           model.name = '默认'
         }
         if (!model.host) {
-          model.host = '127.0.0.1'
+          model.host = 'localhost'
         }
         if (!model.port) {
           model.port = '50070'
