@@ -209,7 +209,6 @@
        * 隐藏弹窗
        */
       cancelModal () {
-        debugger
         this.config.fileConcatEditor.show = false
       }
     },

@@ -53,7 +53,6 @@
             }
           })
           .catch(error => {
-            debugger
             this.$Spin.hide()
             this.$Message.error({
               content: '错误' + error.response.status + ': ' + error.response.statusText,
