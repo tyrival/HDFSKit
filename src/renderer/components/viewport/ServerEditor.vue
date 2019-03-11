@@ -4,7 +4,7 @@
 	       width="350"
 	       :styles="{top: '20px'}">
 		<Form :model="config.serverEditor.model" :label-width="60" ref="serverEditorForm">
-			<FormItem label="类型">
+			<FormItem label="类型" v-show="false">
 				<RadioGroup v-model="config.serverEditor.model.type">
 					<Radio label="HDFS">HDFS</Radio>
 					<Radio label="HIVE">HIVE</Radio>
