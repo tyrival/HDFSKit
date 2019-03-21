@@ -42,6 +42,7 @@ http://93bdf9e341bc:50075/webhdfs/v1/<PATH>?op=CREATE
 ```bash
 # 查看集群所在网络，获取各节点IP
 docker inspect network [hadoop集群所在网络]
+
 # 得到类似如下信息
 "93bdf9e341bc69d7604ac14214094059622517d09e174c139d968519c75310fd": {
     "Name": "datanode1",
