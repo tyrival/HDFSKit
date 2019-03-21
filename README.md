@@ -21,7 +21,7 @@ HDFSKit是一款基于Electron、Vue、NodeJS开发的HDFS GUI客户端，前端
 
     原因：
 
-    Docker在MacOS和Windows中运行hadoop集群时，集群与宿主机不在一个网络中，集群的节点（namenode和datanode）间相互通讯经常使用50070和50075端口，此端口只暴露在集群所在的bridge网络中，宿主机无法直接访问到这些节点的50070端口。在MacOS和Windows中，我们通常的做法是将节点端口映射为宿主机端口，例如：namenode的50070端口映射到宿主机的50070端口，datanode1和datanode2的50075端口分别映射到宿主机的50075和50076端口。
+Docker在MacOS和Windows中运行hadoop集群时，集群与宿主机不在一个网络中，集群的节点（namenode和datanode）间相互通讯经常使用50070和50075端口，此端口只暴露在集群所在的bridge网络中，宿主机无法直接访问到这些节点的50070端口。在MacOS和Windows中，我们通常的做法是将节点端口映射为宿主机端口，例如：namenode的50070端口映射到宿主机的50070端口，datanode1和datanode2的50075端口分别映射到宿主机的50075和50076端口。
 
 Webhdfs API中，文件的增删改操作涉及请求重定向，当HDFSKit提交一个文件上传请求，如下：
 
