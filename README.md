@@ -70,7 +70,7 @@ a2dd75ad19c1	172.18.0.6
 
 ###截图 
 
-![image-20190321164950529](https://ws4.sinaimg.cn/large/006tKfTcgy1g1aij8nypfj316e0u0mzq.jpg)
+![image-20190321165325643](https://ws1.sinaimg.cn/large/006tKfTcgy1g1aimz0rnoj316g0u0dic.jpg)
 
 ![image-20190321141252171](https://ws1.sinaimg.cn/large/006tKfTcgy1g1adzyx48nj30s90izmy5.jpg)
 
