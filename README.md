@@ -80,7 +80,7 @@ a2dd75ad19c1	172.18.0.6
 ### 安装程序
 
 - [Mac OS](https://github.com/tyrival/HDFSKit/releases/download/1.0/HDFSKit-1.0.dmg)
-- Windows (暂不提供，可自行编译)
+- [Windows](https://github.com/tyrival/HDFSKit/releases/download/1.0/HDFSKit-1.0.exe)
 - Linux (暂不提供，可自行编译)
 - 
 
